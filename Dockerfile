@@ -67,7 +67,7 @@ RUN git clone https://github.com/riscv-collab/riscv-openocd && \
 RUN cd /foss/tools && \
     git clone https://github.com/openXC7/prjxray.git && \
     cd prjxray && \
-    git checkout 132342f && \
+    git checkout 0.9.2 && \
     git submodule init && \
     git submodule update && \
     mkdir build && \
@@ -82,7 +82,7 @@ RUN cd /foss/tools && \
 RUN cd /foss/tools && \
     git clone https://github.com/openXC7/prjxray-db && \
     cd prjxray-db && \
-    git checkout 7a36171
+    git checkout a90f27c1
 
 RUN apt install -y libboost-all-dev \
                    libantlr4-runtime-dev \
@@ -91,7 +91,7 @@ RUN apt install -y libboost-all-dev \
 RUN cd /foss/tools && \
     git clone https://github.com/openXC7/nextpnr-xilinx.git nextpnr-xilinx && \
     cd nextpnr-xilinx && \
-    git checkout b5ca546 && \
+    git checkout 0.9.8 && \
     git submodule init && \
     git submodule update && \
     mkdir build && \
