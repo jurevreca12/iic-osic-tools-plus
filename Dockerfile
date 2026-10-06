@@ -51,8 +51,9 @@ RUN git clone https://github.com/riscv-collab/riscv-openocd && \
     git checkout eb01c63 && \
     git submodule update --init ./jimtcl && \
     mkdir /foss/tools/riscv-openocd/ && \
+    apt-get install -y libusb-1.0-0-dev && \
     ./bootstrap && \
-    ./configure --prefix=/foss/tools/riscv-openocd/ --enable-internal-jimtcl && \
+    ./configure --prefix=/foss/tools/riscv-openocd/ --enable-ftdi --enable-internal-jimtcl && \
     make && \
     make install && \
     cd .. && \
@@ -84,7 +85,7 @@ RUN cd /foss/tools && \
     cd prjxray-db && \
     git checkout a90f27c1
 
-RUN apt install -y libboost-all-dev \
+RUN apt -y update && apt install -y libboost-all-dev \
                    libantlr4-runtime-dev \
                    libeigen3-dev
 
@@ -105,6 +106,11 @@ RUN cd /foss/tools/nextpnr-xilinx && \
     ./build/bbasm -l xilinx/xc7a100t.bba xilinx/xc7a100t.bin && \
     rm xilinx/xc7a100t.bba
 
+RUN cd /foss/tools/nextpnr-xilinx && \
+    python xilinx/python/bbaexport.py --device xc7a50tcsg324-1 --bba xilinx/xc7a50t.bba && \
+    ./build/bbasm -l xilinx/xc7a50t.bba xilinx/xc7a50t.bin && \
+    rm xilinx/xc7a50t.bba
+
 RUN apt install g++ unzip zip
 
 RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.29.0/bazelisk-amd64.deb && \
@@ -117,4 +123,14 @@ RUN cd /foss/tools && \
     bazel build -c opt //fpga:fpga-as && install -D --strip bazel-bin/fpga/fpga-as /foss/tools/bin/fpga-as
 
 RUN sudo apt -y install openfpgaloader liblz4-dev
+
+RUN cd /foss/tools && \
+    git clone https://github.com/verilator/verilator verilator2 && \
+    cd verilator2 && \
+    git checkout v5.038 && \
+    autoconf && \
+    ./configure && \
+    make -j `nproc`
+
+RUN pip install fpgacapzero fastapi uvicorn
 USER designer
