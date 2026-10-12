@@ -111,6 +111,21 @@ RUN cd /foss/tools/nextpnr-xilinx && \
     ./build/bbasm -l xilinx/xc7a50t.bba xilinx/xc7a50t.bin && \
     rm xilinx/xc7a50t.bba
 
+RUN cd /foss/tools/nextpnr-xilinx && \
+    python xilinx/python/bbaexport.py --device xc7a35tcsg324-1 --bba xilinx/xc7a35t.bba && \
+    ./build/bbasm -l xilinx/xc7a35t.bba xilinx/xc7a35t.bin && \
+    rm xilinx/xc7a35t.bba
+
+RUN cd /foss/tools/nextpnr-xilinx && \
+    python xilinx/python/bbaexport.py --device xc7z010clg225-1 --bba xilinx/xc7z010.bba && \
+    ./build/bbasm -l xilinx/xc7z010.bba xilinx/xc7z010.bin && \
+    rm xilinx/xc7z010.bba
+
+RUN cd /foss/tools/nextpnr-xilinx && \
+    python xilinx/python/bbaexport.py --device xc7z020clg484-1 --bba xilinx/xc7z020.bba && \
+    ./build/bbasm -l xilinx/xc7z020.bba xilinx/xc7z020.bin && \
+    rm xilinx/xc7z020.bba
+
 RUN apt install g++ unzip zip
 
 RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.29.0/bazelisk-amd64.deb && \
